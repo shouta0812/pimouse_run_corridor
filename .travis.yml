@@ -40,7 +40,17 @@ script:
   - cd ~/catkin_ws
   - catkin_make
   - source ~/catkin_ws/devel/setup.bash
-  - bash -xve ./test/travis_package_make.bash
+  - rsync -av ./ ~/catkin_ws/src/pimouse_run_corridor/
+  - cd ~/catkin_ws/src/
+  - git clone --depth=1 https://github.com/shouta0812/pimouse_ros.git
+  - cd ~/catkin_ws
+  - catkin_make
   - source ~/catkin_ws/devel/setup.bash
-  - bash -xve ./test/travis_prepare_dummy_files.bash
+  - sudo touch /dev/rt{buzzer,motor,motoren,motor_raw_{l,r}}0
+  - sudo chmod 666 /dev/rt{buzzer,motor,motoren,motor_raw_{l,r}}0
+  - echo "0 0 0 0" | sudo tee /dev/rtlightsensor0
+  - sudo chmod 666 /dev/rtlightsensor0
+  - echo "0" | sudo tee /dev/rtswitch{0,1,2}
+  - sudo chmod 666 /dev/rtswitch{0,1,2}
+  - source ~/catkin_ws/devel/setup.bash
   - rostest pimouse_run_corridor wall_stop.launch
