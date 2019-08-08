@@ -1,10 +1,4 @@
 #!/usr/bin/env python
-
-#motors.py
-#Copyright (c) 2016 Ryuichi Ueda <ryuichiueda@gmail.com>
-#This software is released under the MIT License.
-#http://opensource.org/licenses/mit-license.php
-
 import rospy,copy
 from geometry_msgs.msg import Twist
 from std_srvs.srv import Trigger, TriggerResponse
@@ -40,5 +34,4 @@ if __name__ == '__main__':
     rospy.wait_for_service('/motor_off')
     rospy.on_shutdown(rospy.ServiceProxy('/motor_off',Trigger).call)
     rospy.ServiceProxy('/motor_on',Trigger).call()
-    w = WallTrace()
-    w.run()
+    WallTrace().run()
